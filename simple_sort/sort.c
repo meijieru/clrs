@@ -23,6 +23,7 @@ int main()
 
 	/* call both of them may conflict with the Heap_Init_Insertion,the heap_size may be wrong */
 	/* sort(source,SIZE); */
+	Quick_sort_call(source,SIZE);
 	/* priority_queue(source,SIZE); */
 	
 	/* Heap_Init_Test(source,source2,SIZE);	 */
@@ -44,15 +45,17 @@ void sort(int *source,int size)
 	function function_source[FUNCTION_SIZE];	
 
 	function_source[0] = &Heap_sort_call;
-	function_source[1] = Merge_sort_call;
-	function_source[2] = Insertion_sort_call;
+	function_source[1] = &Merge_sort_call;
+	function_source[2] = &Insertion_sort_call;
+	function_source[3] = &Quick_sort_hoare_call;
+	function_source[4] = &Quick_sort_call;
 	
 	for(i=0;i<FUNCTION_SIZE;i++)
 	{
 		start = clock();
 		function_source[i](source,size);
 		end = clock();
-		printf("time wasted:%ld",(end-start)/CLOCKS_PER_SECOND);	
+		printf("time wasted:%ld",(end-start));	
 	}
 }
 
