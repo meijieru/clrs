@@ -4,5 +4,6 @@
 
 void Quick_sort_call(int *source,int size);
 void Quick_sort_hoare_call(int *source,int size);
+void Quick_sort_tail_recursive_call(int *source,int size);
 
 #endif // __QUICK_SORT_H

@@ -7,6 +7,7 @@ static int Quick_sort_partition(int *source,int left_index,int right_index);
 static int Quick_sort_partition_hoare(int *source,int left_index,int right_index);
 void Quick_sort(int *source,int left_index,int right_index);
 void Quick_sort_hoare(int *source,int left_index,int right_index);
+void Quick_sort_tail_recursive(int *source,int left_index,int right_index);
 
 void Quick_sort(int *source,int left_index,int right_index)
 {
@@ -57,6 +58,18 @@ void Quick_sort_hoare(int *source,int left_index,int right_index)
 	}	
 }
 
+void Quick_sort_tail_recursive(int *source,int left_index,int right_index)
+{
+	int mid_index;
+
+	while(left_index<right_index)
+	{
+		mid_index = Quick_sort_partition(source,left_index,right_index);
+		Quick_sort_tail_recursive(source,left_index,mid_index-1);
+		left_index = mid_index+1;
+	}
+}
+
 static int Quick_sort_partition_hoare(int *source,int left_index,int right_index)
 {
 	int i,j;
@@ -89,4 +102,9 @@ void Quick_sort_call(int *source,int size)
 void Quick_sort_hoare_call(int *source,int size)
 {
 	Quick_sort_hoare(source,0,size-1);
+}
+
+void Quick_sort_tail_recursive_call(int *source,int size)
+{
+	Quick_sort_tail_recursive(source,0,size-1);
 }
