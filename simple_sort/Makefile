@@ -21,7 +21,7 @@ sort.o:sort.c sort.h
 	$(CC) $(CFLAGS) -c sort.c
 
 clean:
-	rm -f all 
+	rm -f *.o 
 	(cd heap_sort; make clean)
 	(cd merge_sort; make clean)
 	(cd insertion_sort; make clean)
