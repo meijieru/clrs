@@ -36,7 +36,7 @@ static int Quick_sort_partition(int *source,int left_index,int right_index)
 	}
 	swap(&source[i+1],&source[right_index]);
 
-	return j+1;
+	return i+1;
 }
 
 static void swap(int *source1,int *source2)
