@@ -61,14 +61,25 @@ static void Random_in_place(int *source,int left_index,int right_index)
  */
 int Random_search(int *source,int left_index,int right_index,int target)
 {
+	int count[right_index-left_index+1];
+	int counts = 0;
 	int index = Rand(left_index,right_index);
 
-	while(source[index]!=target)
+	while(counts<=right_index-left_index+1)
 	{
 		index = Rand(left_index,right_index);
+
+		if(source[index]==target)
+			return index;
+
+		if(count[index-left_index]==0)
+		{
+			count[index-left_index]=1;
+			counts+=1;
+		}
 	}
 
-	return index;
+	return -1;
 }
 
 /**
