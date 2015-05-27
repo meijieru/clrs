@@ -12,6 +12,11 @@ void Counting_sort(int *source,int *destination,int size,int k)
 	int i;
 	int *count = malloc(sizeof(int)*k);
 
+	if(count==NULL)
+	{
+		exit(0);
+	}
+
 	for(i=0;i<k;i++)
 	{
 		count[i] = 0;
@@ -32,6 +37,8 @@ void Counting_sort(int *source,int *destination,int size,int k)
 		destination[count[source[i]]] = source[i];
 		count[source[i]]--;
 	}
+
+	free(count);
 }
 
 void Radix_sort(int *source,int length)
