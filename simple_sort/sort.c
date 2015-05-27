@@ -16,7 +16,7 @@ int main()
 	for(i=0;i<SIZE;i++)
 		fscanf(file1,"%d",&source[i]);	//notice the type
 	fclose(file1);
-
+	
 	/* for(i=0;i<SIZE;i++) */
 		/* source2[i] = source[i]; */
 
