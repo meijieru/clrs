@@ -22,8 +22,8 @@ int main()
 
 
 	/* call both of them may conflict with the Heap_Init_Insertion,the heap_size may be wrong */
-	/* sort(source,SIZE); */
-	Quick_sort_call(source,SIZE);
+	sort(source,SIZE);
+	/* Quick_sort_call(source,SIZE); */
 	/* priority_queue(source,SIZE); */
 	
 	/* Heap_Init_Test(source,source2,SIZE);	 */
