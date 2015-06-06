@@ -56,6 +56,11 @@ flags = [
 '/home/workspace/git/clrs/simple_sort/quick_sort'
 '-isystem'
 '/home/workspace/git/clrs/simple_sort/linear_sort'
+'-isystem'
+'/home/workspace/git/clrs/simple_sort/bubble_sort'
+'-isystem'
+'/home/workspace/git/clrs/simple_sort/select_sort'
+
 # '-isystem',
 # '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1',
 # '-isystem',
