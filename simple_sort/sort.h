@@ -5,6 +5,8 @@
 #include "merge_sort/Merge_sort.h"
 #include "insertion_sort/Insertion_sort.h"
 #include "quick_sort/Quick_sort.h"
+#include "bubble_sort/bubble_sort.h"
+#include "select_sort/select_sort.h"
 
 typedef void (*function)(int *,int);
 

@@ -47,13 +47,15 @@ flags = [
 '-isystem',
 '/usr/local/include',
 '-isystem'
-'./merge_sort'
+'/home/workspace/git/clrs/simple_sort/merge_sort'
 '-isystem'
-'./insertion_sort'
+'/home/workspace/git/clrs/simple_sort/insertion_sort'
 '-isystem'
-'./heap_sort'
+'/home/workspace/git/clrs/simple_sort/heap_sort'
 '-isystem'
-'./quick_sort'
+'/home/workspace/git/clrs/simple_sort/quick_sort'
+'-isystem'
+'/home/workspace/git/clrs/simple_sort/linear_sort'
 # '-isystem',
 # '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1',
 # '-isystem',
