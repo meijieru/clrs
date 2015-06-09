@@ -18,9 +18,11 @@ void Insertion_sort_call(int *source,int size)
 
 	Insertion(source,size);	
 	/* Insertion_Recursive(source,size);	 */
-
+#ifndef DEBUG
 	for(i=0;i<size;i++)
-		printf("%d\n",source[i]);
+		printf("%d ",source[i]);
+#endif
+	printf("Insertion_sort_call\n");
 }
 
 /**
@@ -33,7 +35,7 @@ void Insertion(int *source,int size)
 {
 	int i,j;
 	int key;
-	for(i=1;i<=size;i++)
+	for(i=1;i<size;i++)
 	{
 		j = i-1;
 		key = source[i];

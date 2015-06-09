@@ -21,12 +21,13 @@ void Heap_sort_call(int *source,int size)
 	source_heap.length = size;
 
 	Heap_sort(&source_heap);
-
+#ifndef DEBUG
 	for(i=0;i<size;i++)
 	{
 		printf("%d ",source[i]);
 	}
-	printf("\n");
+#endif
+	printf("Heap_sort_call\n");
 	
 }
 
@@ -179,23 +180,23 @@ void Heap_Init_Insertion(heap *source)
 void Heap_sort(heap *source)
 {
 	int i;
-	int j;
+	/* int j; */
 
 	/* Heap_Init(source); */
 	Heap_Init_Insertion(source);
-	Max_Heap_Debug(source);	
-	printf("tags1\n");
+	/* Max_Heap_Debug(source);	 */
+	/* printf("tags1\n"); */
 
 	for(i=(source->heap_size-1);i>=1;i--)
 	{
 		swap(&(source->array[0]),&(source->array[i]));
 		source->heap_size = source->heap_size-1;
 		Max_Heapify(source,0);
-		for(j=0;j<source->length;j++)
-		{
-			printf("%d ",source->array[j]);
-		}
-		printf("\n");
+		/* for(j=0;j<source->length;j++) */
+		/* { */
+			/* printf("%d ",source->array[j]); */
+		/* } */
+		/* printf("\n"); */
 	}	
 }
 

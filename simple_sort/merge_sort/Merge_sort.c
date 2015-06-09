@@ -16,9 +16,12 @@ void Merge_sort_call(int *source,int size)
 {
 	int i;
 
-	Merge_sort(source,0,size);
+	Merge_sort(source,0,size-1);
+#ifndef DEBUG
 	for(i=0;i<size;i++)
-		printf("%d\n",source[i]);
+		printf("%d ",source[i]);
+#endif
+	printf("Merge_sort_call\n");
 }
 
 /**
@@ -59,10 +62,10 @@ void Merge(int *source,int left_index,int mid_index,int right_index)
 	count2 = right_index-mid_index;
 	count = count1+count2;
 
-	array1 = malloc(sizeof(int)*(count1+1));
+	array1 = (int *)malloc(sizeof(int)*(count1+1));
 	if(array1 == NULL)
 		exit(0);
-   	array2 = malloc(sizeof(int)*(count2+1));
+   	array2 = (int *)malloc(sizeof(int)*(count2+1));
 	if(array2 == NULL)
 		exit(0);
 

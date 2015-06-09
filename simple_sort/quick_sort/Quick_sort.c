@@ -76,7 +76,7 @@ static int Quick_sort_partition_hoare(int *source,int left_index,int right_index
 	int key = source[right_index];
 	
 	i = left_index-1;
-	j = right_index+1;
+	j = right_index;
 	
 	while(1)
 	{
@@ -96,15 +96,33 @@ static int Quick_sort_partition_hoare(int *source,int left_index,int right_index
 
 void Quick_sort_call(int *source,int size)
 {
+	int i;
 	Quick_sort(source,0,size-1);	
+#ifndef DEBUG
+	for(i=0;i<size;i++)
+		printf("%d ",source[i]);
+#endif
+	printf("Quick_sort_call\n");
 }
 
 void Quick_sort_hoare_call(int *source,int size)
 {
+	int i;
 	Quick_sort_hoare(source,0,size-1);
+#ifndef DEBUG
+	for(i=0;i<size;i++)
+		printf("%d ",source[i]);
+#endif
+	printf("Quick_sort_hoare_call\n");
 }
 
 void Quick_sort_tail_recursive_call(int *source,int size)
 {
+	int i;
 	Quick_sort_tail_recursive(source,0,size-1);
+#ifndef DEBUG
+	for(i=0;i<size;i++)
+		printf("%d ",source[i]);
+#endif
+	printf("Quick_sort_hoare_call\n");
 }

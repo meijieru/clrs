@@ -1,6 +1,6 @@
 #ifndef __BUBBLE_SORT_H
 #define __BUBBLE_SORT_H
 
-void Bubble_sort(int *source,int left_index,int right_index);
+void Bubble_sort_call(int *source,int size); 
 
 #endif // __BUBBLE_SORT_H

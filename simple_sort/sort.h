@@ -12,7 +12,7 @@ typedef void (*function)(int *,int);
 
 void sort(int *source,int size);
 
-#define SIZE 20
-#define FUNCTION_SIZE 5
+#define SIZE 10000
+#define FUNCTION_SIZE 6 
 
 #endif //__SORT_H

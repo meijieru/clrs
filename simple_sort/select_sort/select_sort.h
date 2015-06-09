@@ -2,6 +2,6 @@
 #define __SELECT_SORT_H
 
 
-void Select_sort(int *source,int left_index,int right_index);
+void Select_sort_call(int *source,int size);
 
 #endif // __SELECT_SORT_H

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O1 -g
+CFLAGS = -O1 -g -DDEBUG
 
 all:sort.o Heap_sort.o Merge_sort.o Insertion_sort.o Quick_sort.o bubble_sort.o select_sort.o
 	$(CC) $(CFLAGS) -o target sort.o Heap_sort.o Merge_sort.o Insertion_sort.o Quick_sort.o bubble_sort.o select_sort.o
