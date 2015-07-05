@@ -6,14 +6,6 @@
 #define TRUE 1
 #define FALSE 0
 
-typedef struct stack
-{
-    int *stack_base;
-    int *stack_top;
-    int stack_size;
-}Stack;
-
-typedef Stack (*Stack_ptr);
 
 int main()
 {
