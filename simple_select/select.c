@@ -12,6 +12,10 @@ int  Random(int left_bound,int right_bound);
 int  Random_select(int *source,int left_bound,int right_bound,int power);
 int  Random_partition(int *source,int left_bound,int right_bound);
 
+// make use of the list to sort the medium number
+// remain to be done
+int  PartitionSort(int *source,int left_bound,int right_bound);
+
 void Insertion(int *source,int left_index,int right_index);
 
 int main()
