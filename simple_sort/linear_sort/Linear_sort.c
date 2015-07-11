@@ -50,3 +50,15 @@ void Radix_sort(int *source,int length)
 		
 	}	
 }
+
+
+/**
+ * @brief expect the input are equidistribution
+ *
+ * @param source
+ * @param length
+ */
+void Bucket_sort(int *source,int length)
+{
+	
+}

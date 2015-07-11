@@ -46,19 +46,19 @@ flags = [
 '/usr/include',
 '-isystem',
 '/usr/local/include',
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/merge_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/insertion_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/heap_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/quick_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/linear_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/bubble_sort'
-'-isystem'
+'-I'
 '/home/workspace/git/clrs/simple_sort/select_sort'
 
 # '-isystem',
