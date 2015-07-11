@@ -16,13 +16,17 @@ int main()
 	ListDelete(&root,9);
 	ListDelete(&root,3);
 	ListCheck(&root);
+	printf("searched:%d\n",ListSearch(&root,4)->data);
 	ListEmpty(&root);
 }
 
-/* Node *ListSearch(Node **root) */
-/* { */
-	
-/* } */
+Node *ListSearch(Node **root,element_type target)
+{
+	Node *current;
+	while((current=*root)!=NULL&&(current->data!=target))
+		root = &(*root)->next;
+	return *root;
+}
 
 Node *ListInit(void)
 {

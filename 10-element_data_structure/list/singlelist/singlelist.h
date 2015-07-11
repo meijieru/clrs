@@ -10,7 +10,7 @@ typedef struct node
 
 // #define NEXT_NODE(ptr) &
 
-Node *ListSearch(Node **root);
+Node *ListSearch(Node **root,element_type target);
 Node *ListInsert(Node **root,element_type target);
 Node *ListInit(void);
 Node *ListDelete(Node **root,element_type target);
