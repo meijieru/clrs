@@ -28,9 +28,4 @@ select_sort.o:./select_sort/select_sort.c ./select_sort/select_sort.h
 clean:
 	rm -f *.o 
 	rm target
-	(cd heap_sort; rm -f *.o) 
-	(cd merge_sort; rm -f *.o) 
-	(cd insertion_sort; rm -f *.o)
-	(cd select_sort; rm -f *.o) 
-	(cd bubble_sort; rm -f *.o) 
-	
+
