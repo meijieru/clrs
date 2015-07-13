@@ -180,6 +180,9 @@ class bTree{
 			}
 		}
 
+		// void InOrderTreeWalkWithoutStack(void)
+		// could add a member visited to the bTree
+
 		void PostOrderTreeWalk(){
 			stack<pair<int,Node *>> s;
 			const int kLeft=0,kRight=1,kMiddle=2;
