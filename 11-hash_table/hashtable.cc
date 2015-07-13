@@ -100,9 +100,7 @@ class ChainningHash
 class OpenAddressHash{
 	public:
 		OpenAddressHash(size_t size):size_(size){
-			T_.resize(size);
-			for(auto &a:T_)
-				a = kNil;
+			T_.resize(size,kNil);
 		}
 
 		void Insert(int target){
@@ -194,5 +192,5 @@ int main(){
 			cout << *loc << endl;
 	cout << "tag3" << endl;
 
-
+	return 0;
 }

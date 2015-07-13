@@ -1,2 +1,2 @@
-all:./binary_tree.c ./binarytree.h
-	gcc -g -std=c99 -Wall -O1 binarytree.c
+all:./binary_tree.cc
+	g++ -g -std=c++11 -Wall -O1 binary_tree.cc
