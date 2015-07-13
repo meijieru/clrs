@@ -80,7 +80,7 @@ class bTree{
 
 		Node *Successor(Node *ptr){
 			if(ptr->right!=kNil)
-				return Min(ptr);
+				return Min(ptr->right);
 			Node *tmp = ptr->parent;
 			while(tmp!=kNil&&tmp->right==ptr){
 				ptr = tmp;
@@ -91,7 +91,7 @@ class bTree{
 
 		Node *Predecessor(Node *ptr){
 			if(ptr->left!=kNil)
-				return Max(ptr);
+				return Max(ptr->left);
 			Node *tmp = ptr->parent;
 			while(tmp!=kNil&&tmp->left==ptr){
 				ptr = tmp;
@@ -224,11 +224,14 @@ int main()
 	tree.Insert(6);
 	tree.Insert(7);
 	tree.PreOrderTreeWalk();
-	// cout << "tag1" << endl;
-	// tree.Delete(tree.Search(5));
-	// tree.PreOrderTreeWalk();
 	cout << endl;
 	tree.PostOrderTreeWalk();
 	cout << endl;
+	cout << tree.Successor(tree.Search(8))->data << endl;
+	cout << tree.Predecessor(tree.Search(8))->data << endl;
+	cout << "kk" << endl;
 	tree.InOrderTreeWalk();
+	cout << "tag1" << endl;
+	tree.Delete(tree.Search(5));
+	tree.PreOrderTreeWalk();
 }
