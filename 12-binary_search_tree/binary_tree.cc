@@ -100,7 +100,7 @@ class bTree{
 			return tmp;
 		}
 
-		void Transparent(Node *dst,Node *src){
+		void Transplant(Node *dst,Node *src){
 			if(!dst->parent){
 				root_ = src;
 			}else if(dst==dst->parent->left){
@@ -115,18 +115,18 @@ class bTree{
 
 		void Delete(Node *ptr){
 			if(!ptr->left){
-				Transparent(ptr,ptr->right);
+				Transplant(ptr,ptr->right);
 			}else if(!ptr->right){
-				Transparent(ptr,ptr->left);
+				Transplant(ptr,ptr->left);
 			}else{
 				Node *tmp = Min(ptr->right);
 				{
 					if(tmp->parent!=ptr){
-						Transparent(tmp,tmp->right);
+						Transplant(tmp,tmp->right);
 						tmp->right = ptr->right;
 						tmp->right->parent = tmp;
 					}
-					Transparent(ptr,tmp);
+					Transplant(ptr,tmp);
 					tmp->left = ptr->left;
 					tmp->left->parent = tmp;
 				}
