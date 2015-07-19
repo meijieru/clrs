@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 #include <climits>
 #include <iostream>
 #include <algorithm>
@@ -11,6 +12,22 @@ int MemeizedCutRodAux(int r[],int s[],int p[],int n);
 void PrintOptimalParens(int *s,int n,int i,int j);
 void LcsPrint(int *source,int *solution,int n,int length_a,int length_b);
 void PrintOptimalBst(int *root,int n,int i,int j,int last_root);
+
+void PrintArray(int *src,int a,int b) {
+	for (int i = 0; i < a; ++i) {
+		for (int j = 0; j < b; ++j) {
+			cout << *(src + i*a + j) << " ";
+		}
+		cout << endl;
+	}
+}
+void ClearArray(int *src,int a,int b,int fill) {
+	for (int i = 0; i < a; ++i) {
+		for (int j = 0; j < b; ++j) {
+			*(src + a*i +j) = fill;
+		}
+	}
+}
 
 /********************************** the rod cut question ************************************/
 void MemeizedCutRod(int p[],int n) {
@@ -141,7 +158,7 @@ void LcsLength(int *lcs_a,int length_a,int *lcs_b,int length_b) {
 			}
 		}
 	}
-	cout << "longeset:" << result[length_a][length_b] << endl;
+	cout << "longest:" << result[length_a][length_b] << endl;
 	LcsPrint(lcs_a,&solution[0][0],length_b+1,length_a,length_b);
 }
 
@@ -202,6 +219,7 @@ void LisBetter();
 void OptimalBst(const vector<float> p,const vector<float> q,int n) {
 	float e[n+2][n+1],w[n+2][n+1];
 	int root[n+1][n+1];
+	memset(root,0,sizeof(root));
 	for (int i = 1;i <= n+1;i++) {
 		e[i][i-1] = q[i-1];
 		w[i][i-1] = q[i-1];
@@ -220,26 +238,25 @@ void OptimalBst(const vector<float> p,const vector<float> q,int n) {
 			}
 		}
 	}
-
 	PrintOptimalBst(&root[0][0],n+1,1,n,0);
 }
 
 void OptimalBstBetter(const vector<float> p,const vector<float> q,int n) {
 	float e[n+2][n+1],w[n+2][n+1];
 	int root[n+1][n+1];
+	memset(root,0,sizeof(root));
 	for (int i = 1;i <= n+1;i++) {
 		e[i][i-1] = q[i-1];
 		w[i][i-1] = q[i-1];
 		root[i][i-1] = i;
 	}
-
 	for (int l = 1;l <= n;l++) {
 		for (int i = 1;i <= n-l+1;++i) {
 			int j = i+l-1;
 			e[i][j] = 10e10;
 			w[i][j] = w[i][j-1] + p[j] + q[j];
-			// knuth prove that root[i][j-1]<=root[i][j]<=root[i+1][j]
-			for (int r = root[i][j-1];r <= root[i+1][j];++r) {
+			// for (int r = root[i][j-1];r <= root[i+1][j];++r) {
+			for (int r = max(i, root[i][j-1]); r <= min(j, root[i+1][j]); ++r) {
 				float t = e[i][r-1] + e[r+1][j] + w[i][j];
 				if (t < e[i][j]) {
 					e[i][j] = t;
@@ -248,11 +265,8 @@ void OptimalBstBetter(const vector<float> p,const vector<float> q,int n) {
 			}
 		}
 	}
-
-	// cout << "the root " << root[1][n] << endl;
 	PrintOptimalBst(&root[0][0],n+1,1,n,0);
 }
-
 
 void PrintOptimalBst(int *root,int n,int i,int j,int last_root) {
 	if(i == 1 && j == n-1) {
@@ -271,26 +285,163 @@ void PrintOptimalBst(int *root,int n,int i,int j,int last_root) {
 		PrintOptimalBst(root,n,i,*(root + n*i + j)-1,*(root + n*i + j));
 		PrintOptimalBst(root,n,*(root + n*i + j)+1,j,*(root + n*i + j));
 	}
-	
 }
+
+/*********************************** longest palindrome subsequance problem *************************/
+void LPS(char *str,int length) {
+	int r[length+1][length+1];
+	for (int i = 0;i <=length;++i) {
+		for (int j = 0;j <= length;++j) {
+			r[i][j] = 0;
+		}
+	}
+
+	for (int i = 1;i <= length;++i) {
+		r[i][i] = 1;
+	}
+
+	for (int l = 1;l <= length;++l) {
+		for (int i = 1;i+l-1 <= length;++i) {
+			int j = i + l - 1;
+			if (i == j) {
+				r[i][j] = 1;
+				continue;
+			}
+			if (str[i-1] == str[j-1]) {
+				r[i][j] = r[i+1][j-1] + 2;
+			} else {
+				if (r[i+1][j] < r[i][j-1]) {
+					r[i][j]  = r[i][j-1];
+				} else {
+					r[i][j] = r[i+1][j];
+				}
+			}
+		}
+	}
+
+	cout << "the lps is:" << r[1][length] << endl;
+}
+
+/****************************** bitonic tours ************************/
+typedef struct point {
+	float x;
+	float y;
+}Point;
+
+float Distance(Point a,Point b) {
+	return sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+}
+
+void BitonicTours(vector<Point> p) {
+	sort(p.begin(),p.end(),
+			[](Point &a,Point &b){return a.x < b.x;});
+
+	int n = p.size();
+	cout << n << endl;
+	cout << p[n-1].x << endl;
+	float b[n+1][n+1];
+	memset(b,0,sizeof(b));
+
+	b[1][2] = Distance(p[0],p[1]);
+	for (int j = 3;j <= n; ++j) {
+		for (int i = 1;i <= j-2; ++i) {
+			b[i][j] = b[i][j-1] + Distance(p[j-2],p[j-1]);
+		}
+		b[j-1][j] = 10e100;
+		for (int k = 1;k <= j-2; ++k) {
+			float q = b[k][j-1] + Distance(p[k-1],p[j-1]);
+			if (q <  b[j-1][j]) {
+				b[j-1][j] = q;
+			}
+		}
+	}
+	b[n][n] = b[n-1][n] + Distance(p[n-2],p[n-1]);
+	
+	cout << "BitonicTours:" << b[n][n] << endl;
+}
+
+/************************ print neatly problem ******************/
+void PrintNeatly(vector<string> words,int max_size) {
+	int n = words.size();
+	int extra[n][n];
+	int lc[n][n];
+	int result[n];
+
+	memset(result,0,sizeof(result));
+	ClearArray(&extra[0][0],n,n,0);
+	ClearArray(&lc[0][0],n,n,10000);
+	// ClearArray(&lc[0][0],n,n,0);
+	PrintArray(&lc[0][0],n,n);
+	for (int i = 0; i < n; ++i) {
+		extra[i][i] = max_size - words[i].size();
+		lc[i][i] = extra[i][i] * extra[i][i] * extra[i][i];
+	}
+
+	for (int l = 2; l <= n; ++l) {
+		for (int i = 0; i+l-1 < n; ++i) {
+			int j = i+l-1;
+			extra[i][j] = extra[i][j-1] - words[j].size() - 1;
+			if (extra[i][j] >= 0) {
+				if (j == n-1) {
+					lc[i][j] = 0;
+				} else {
+					lc[i][j] = extra[i][j] * extra[i][j] * extra[i][j];
+				}
+			}
+		}
+	}
+
+	PrintArray(&extra[0][0],n,n);
+	PrintArray(&lc[0][0],n,n);
+
+	result[0] = 0;
+	for (int j = 1; j < n; ++j) {
+		result[j] = 10000;
+		for (int i = 0; i <= j; ++i) {
+			int tmp = result[i-1] + lc[i][j];
+			if (tmp < result[j]) {
+				result[j] = tmp;
+			}
+		}
+	}
+	
+	PrintArray(result,1,n);
+	cout << "the lc:" << result[n-1] << endl;
+
+}
+
 int main() {
-	int x[11]{0,1,5,8,9,10,17,17,20,24,30};
-	BottomUpCutRod(x,11);
-	cout << "tag" << endl;
-	MemeizedCutRod(x,10);
+	/* int x[11]{0,1,5,8,9,10,17,17,20,24,30}; */
+	// BottomUpCutRod(x,11);
+	// cout << "tag" << endl;
+	// MemeizedCutRod(x,10);
 
-	int matrix[]{30,35,15,5,10,20,25};
-	MatrixChainOrder(matrix,6);
+	// int matrix[]{30,35,15,5,10,20,25};
+	// MatrixChainOrder(matrix,6);
 
-	int lcs_a[]{0,1,2,3,2,4,1,2};
-	int lcs_b[]{0,2,4,3,1,2,1};
-	LcsLength(lcs_a,7,lcs_b,6);
-	cout << endl;
-	LcsLengthComprass(lcs_a,7,lcs_b,6);
+	// int lcs_a[]{0,1,2,3,2,4,1,2};
+	// int lcs_b[]{0,2,4,3,1,2,1};
+	// LcsLength(lcs_a,7,lcs_b,6);
+	// cout << endl;
+	// LcsLengthComprass(lcs_a,7,lcs_b,6);
 
-	vector<float> p{0,0.15,0.10,0.05,0.10,0.20};
-	vector<float> q{0.05,0.10,0.05,0.05,0.05,0.10};
-	OptimalBst(p,q,5);
-	OptimalBstBetter(p,q,5);
+	// vector<float> p{0,0.15,0.10,0.05,0.10,0.20};
+	// vector<float> q{0.05,0.10,0.05,0.05,0.05,0.10};
+	// OptimalBst(p,q,5);
+	// // cout << "here" << endl;
+	// OptimalBstBetter(p,q,5);
+
+	// char str[] = "aibohphobia";
+	// // char str[] = "ivi";
+	// LPS(str,strlen(str));
+
+	// // vector<Point> points {{1,1},{2,7},{3,4},{6,3},{7,6},{8,2},{9,5}};
+	// vector<Point> points {{0,6},{1,0},{2,3},{5,4},{6,1},{7,5},{8,2}};
+	// BitonicTours(points);
+
+
+	vector<string> words={"abc","def","gh","polq","cs","opaqe","klfgh","t"};  
+	// vector<string> words={"abc","deg"};  
+	PrintNeatly(words,8);
 }
 
