@@ -217,9 +217,9 @@ public:
 
 	// garantee that every recursive the node p has at least t_ key
 	void DeleteNonone(Node *p,int k) {
-		if (!p) {
-			return;
-		}
+		// if (!p) {
+			// return;
+		// }
 		// case 1
 		
 		if (IsLeaf(p)) {
@@ -238,14 +238,16 @@ public:
 				// cout << "count here " << i << endl;
 				p->key.resize(p->key.size() - 1);
 				// cot << "get" << endl;
-				return;
+				// return;
 			}
-			// return ;
+			return ;
 		} else {
+				cout << "get" << endl;
 			size_t i = 0;
 			while(i < p->key.size() && k > p->key[i]) {
 				++i;
 			}
+			cout << i << endl;
 			
 			// case 2
 			if (k == p->key[i]) {
@@ -256,23 +258,23 @@ public:
 					auto tmp = Max(p->kids[i]);
 					p->key[i] = tmp.first->key[tmp.second];
 					// cout << p->key[i] << "kids" <<endl;
-					// k = p->key[i];
-					// p = p->kids[i];
+					k = p->key[i];
+					p = p->kids[i];
 					// DebugHook(p->key);
-					DeleteNonone(p->kids[i],p->key[i]);
+					// DeleteNonone(p->kids[i],p->key[i]);
 				} else if (p->kids[i+1]->key.size() >= t_) {
 					// case 2.2
 					cout << "case 2.2" << endl;
 					auto tmp = Min(p->kids[i+1]);
 					p->key[i] = tmp.first->key[tmp.second];
-					// k = p->key[i];
-					// p = p->kids[i+1];
-					DeleteNonone(p->kids[i+1],p->key[i]);
+					k = p->key[i];
+					p = p->kids[i+1];
+					// DeleteNonone(p->kids[i+1],p->key[i]);
 				} else {
 					// case 2.3
 					cout << "case 2.3" << endl;
-					// p = MergeChild(p,i);
-					DeleteNonone(MergeChild(p,i),k);
+					p = MergeChild(p,i);
+					// DeleteNonone(MergeChild(p,i),k);
 				}
 			} else {
 				// case 3
@@ -284,35 +286,36 @@ public:
 						cout << "case 3.1" << endl;
 						ShiftToRight(p,i);
 						p = ptr;
-						DeleteNonone(ptr,k);
+						// DeleteNonone(ptr,k);
 					} else if (i == 0 && p->kids[i+1]->key.size() > t_ - 1) {
 						cout << "case 3.1" << endl;
 						ShiftToLeft(p,i);
 						p = ptr;
-						DeleteNonone(ptr,k);
+						// DeleteNonone(ptr,k);
 					} else {
 						// case 3.2
 						cout << "case 3.2" << endl;
-						// Node *tmp = 0;
+						Node *tmp = 0;
 						if (i > 0) {
-							DeleteNonone(MergeChild(p,i-1),k);
-							// tmp = MergeChild(p,i-1);
-							// p = tmp;
+							// DeleteNonone(MergeChild(p,i-1),k);
+							tmp = MergeChild(p,i-1);
+							p = tmp;
 							// Print();
 							// cout << "a" << endl;
 							// DeleteNonone(tmp,k);
 						} else {
 							DeleteNonone(MergeChild(p,i),k);
-							// tmp = MergeChild(p,i);
-							// p = tmp;
+							tmp = MergeChild(p,i);
+							p = tmp;
 							// Print();
 							// cout << "b" << endl;
 							// DeleteNonone(tmp,k);
 						}
 					}
 				}
-				DeleteNonone(p->kids[i],k);
+				// DeleteNonone(p->kids[i],k);
 			}
+			DeleteNonone(p,k);
 		}
 	}
 
@@ -489,7 +492,7 @@ int main() {
 		// cout << endl;
 	// }
 	// 
-	for (int i = 0; i < del.size(); ++i) {
+	for (size_t i = 0; i < del.size(); ++i) {
 		
 		cout << "delete " << del[i] << endl;
 		bt.Delete(del[i]);
