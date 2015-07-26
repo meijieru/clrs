@@ -404,7 +404,8 @@ public:
 			auto inserted = new ListNode;
 			inserted->ptree = pmin->ptree->Split();
 			ListInsert(inserted);
-			Consolidate(list_);
+			Consolidate(inserted);
+			// Consolidate(list_);
 		}
 		delete pmin->ptree;
 		delete pmin;
