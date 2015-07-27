@@ -19,7 +19,7 @@ public:
 		int ischeck{0};
 	} Node;
 
-	FibHeap():nil_(0),min_(0),size_(0) {}
+	FibHeap(): min_(0),nil_(0),size_(0){}
 	~FibHeap() {
 		Release();
 	}
