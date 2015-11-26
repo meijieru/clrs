@@ -74,7 +74,7 @@ public:
 		vertexs_[start]->cl = kGray;
 		vertexs_[start]->depth = 0;
 		vertexs_[start]->parent = -1;
-		
+
 		queue<Vertex *> q;
 		q.push(vertexs_[start]);
 		while (q.size()) {
@@ -103,7 +103,7 @@ public:
 		}
 	}
 
-	void DFS(void) {	
+	void DFS(void) {
 		for (auto &a:vertexs_) {
 			// a->s = a->f = -1;
 			a->cl = kWhite;
@@ -149,7 +149,7 @@ public:
 		edges_[s].push_back(inserted);
 	}
 
-	LinkGraph *Reverse(void) { 
+	LinkGraph *Reverse(void) {
 		auto tmp = new LinkGraph(vertexs_.size());
 		tmp->vertexs_.resize(vertexs_.size());
 		tmp->edges_.resize(edges_.size());

@@ -135,7 +135,7 @@ void LcsLength(int *lcs_a,int length_a,int *lcs_b,int length_b) {
 	for (int i = 0;i <= length_b;i++) {
 		result[0][i] = 0;
 	}
-	
+
 	for (int i=0;i<=length_a;i++) {
 		for (int j=0; j<=length_b;j++ ) {
 			solution[i][j] = 0;
@@ -209,7 +209,7 @@ void LcsLengthComprass(int *lcs_a,int length_a,int *lcs_b,int length_b) {
 void LIS(vector<int> src) {
 	vector<int> tmp(src);
 	sort(src.begin(),src.end());
-	
+
 	// then figure the LCS of tmp and src
 }
 
@@ -280,7 +280,7 @@ void PrintOptimalBst(int *root,int n,int i,int j,int last_root) {
 		cout << "d" << j  << " is the " << ( i%2 ? "left" : "right")
 		   	<< " kid of k" << last_root << endl;
 	} else {
-		cout << "k" << *(root + n*i + j) << " is the " << 
+		cout << "k" << *(root + n*i + j) << " is the " <<
 			( i<last_root ? "left" : "right") << " kid of k" <<last_root << endl;
 		PrintOptimalBst(root,n,i,*(root + n*i + j)-1,*(root + n*i + j));
 		PrintOptimalBst(root,n,*(root + n*i + j)+1,j,*(root + n*i + j));
@@ -356,7 +356,7 @@ void BitonicTours(vector<Point> p) {
 		}
 	}
 	b[n][n] = b[n-1][n] + Distance(p[n-2],p[n-1]);
-	
+
 	cout << "BitonicTours:" << b[n][n] << endl;
 }
 
@@ -404,7 +404,7 @@ void PrintNeatly(vector<string> words,int max_size) {
 			}
 		}
 	}
-	
+
 	PrintArray(result,1,n);
 	cout << "the lc:" << result[n-1] << endl;
 
@@ -440,8 +440,8 @@ int main() {
 	// BitonicTours(points);
 
 
-	vector<string> words={"abc","def","gh","polq","cs","opaqe","klfgh","t"};  
-	// vector<string> words={"abc","deg"};  
+	vector<string> words={"abc","def","gh","polq","cs","opaqe","klfgh","t"};
+	// vector<string> words={"abc","deg"};
 	PrintNeatly(words,8);
 }
 

@@ -21,7 +21,7 @@ class bTree{
 
 		void Insert(int target){
 			Node *last(kNil);
-			Node *current(root_);	
+			Node *current(root_);
 			while(current!=kNil){
 				last = current;
 				if(target < current->data){

@@ -77,7 +77,7 @@ class rbTree{
 
 		void Insert(int target){
 			Node *last(nil_);
-			Node *current(root_);	
+			Node *current(root_);
 			while(current!=nil_){
 				// cout << "hehe" << endl;
 				last = current;
@@ -110,7 +110,7 @@ class rbTree{
 		void Delete(Node *ptr){
 			Node *y = ptr;
 			Node *x = nil_;
-			kColor y_origin_color = y->color; 
+			kColor y_origin_color = y->color;
 			if(ptr->left == nil_){
 				x = ptr->right;
 				Transplant(ptr,ptr->right);
@@ -247,7 +247,7 @@ class rbTree{
 					}
 				}else{
 					//case 2 symmetric to the case 1
-					Node *tmp = ptr->parent->parent->left;					
+					Node *tmp = ptr->parent->parent->left;
 					if(tmp->color == kRed){
 						ptr->parent->color = kBlack;
 						tmp->color = kBlack;
@@ -265,14 +265,14 @@ class rbTree{
 				}
 			}
 			root_->color = kBlack;
-		} 
+		}
 
 		void DeleteFixUp(Node *x){
 			Node *w;
 			// regard x as an extra black,to keep the property 5
 			while(x!=root_ && x->color==kBlack){
 			// cout << i++ << "root:" << root_->data << endl;
-				// case 1 
+				// case 1
 				if(x == x->parent->left){
 					// cout << "w1" << endl;
 					w = x->parent->right;
@@ -284,7 +284,7 @@ class rbTree{
 						LeftRotate(x->parent);
 						w = x->parent->right;
 					}
-					// case 1.2 
+					// case 1.2
 					if(w->left->color == kBlack && w->right->color == kBlack){
 						w->color = kRed;
 						x = x->parent;
@@ -297,7 +297,7 @@ class rbTree{
 							w->color = kRed;
 							RightRotate(w);
 							w = x->parent->right;
-						} 
+						}
 						// case 1.4
 						// cout << "eh4" << endl;
 						w->color = x->parent->color;
@@ -315,7 +315,7 @@ class rbTree{
 						RightRotate(x->parent);
 						w = x->parent->left;
 					}
-					// case 1.2 
+					// case 1.2
 					if(w->left->color == kBlack && w->right->color == kBlack){
 						w->color = kRed;
 						x = x->parent;
@@ -326,7 +326,7 @@ class rbTree{
 							w->color = kRed;
 							LeftRotate(w);
 							w = x->parent->left;
-						} 
+						}
 						// case 1.4
 						w->color = x->parent->color;
 						x->parent->color = kBlack;
@@ -338,9 +338,9 @@ class rbTree{
 			}
 			x->color = kBlack;
 			// cout << "woqu" << x->data << endl;
-		} 
+		}
 
-		void Transplant(Node *dst,Node *src){ 
+		void Transplant(Node *dst,Node *src){
 			if(dst->parent == nil_){
 				root_ = src;
 			}else if(dst->parent->left == dst){
@@ -379,7 +379,7 @@ public:
 
 	void Insert(int target){
 		Node *last(nil_);
-		Node *current(root_);	
+		Node *current(root_);
 		while(current!=nil_){
 			last = current;
 			if(target < current->data){
@@ -601,7 +601,7 @@ private:
 
 	// die
 	void DeleteBalance(Node *x){
-		
+
 		int key = x->data;
 		x = x->parent;
 			cout << "Balance1" << endl;
@@ -647,7 +647,7 @@ public:
 
 	void Insert(int target){
 		Node *last(kNil);
-		Node *current(root_);	
+		Node *current(root_);
 		while(current!=kNil){
 			last = current;
 			if(target < current->data){
@@ -751,7 +751,7 @@ private:
 
 	Node *root_;
 	Node *kNil;
-	
+
 };
 
 int main()

@@ -4,7 +4,7 @@
 
 
 /**
- * @brief 
+ * @brief
  *
  * @param source
  * @param low_index
@@ -12,7 +12,7 @@
  * @param target
  * @param option
  *
- * @return 
+ * @return
  */
 int Binary_search(int *source,int low_index,int high_index,int target,int option)
 {

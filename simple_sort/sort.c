@@ -16,7 +16,7 @@ int main()
 	for(i=0;i<SIZE;i++)
 		fscanf(file1,"%d",&source[i]);	//notice the type
 	fclose(file1);
-	
+
 	/* for(i=0;i<SIZE;i++) */
 		/* source2[i] = source[i]; */
 
@@ -28,13 +28,13 @@ int main()
 	sort(source,SIZE);
 	/* Quick_sort_call(source,SIZE); */
 	/* priority_queue(source,SIZE); */
-	
-	/* Heap_Init_Test(source,source2,SIZE);	 */ 
+
+	/* Heap_Init_Test(source,source2,SIZE);	 */
 	return 0;
 }
 
 /**
- * @brief 
+ * @brief
  *
  * @param source
  * @param size
@@ -44,7 +44,7 @@ void sort(int *source,int size)
 	int i,k;
 	int *ptr_tmp;
 	clock_t start,end;
-	function function_source[FUNCTION_SIZE];	
+	function function_source[FUNCTION_SIZE];
 
 	function_source[0] = &Heap_sort_call;
 	function_source[1] = &Merge_sort_call;
@@ -52,7 +52,7 @@ void sort(int *source,int size)
 	function_source[3] = &Select_sort_call;
 	function_source[4] = &Quick_sort_call;
 	function_source[5] = &Bubble_sort_call;
-	
+
 	for(i=0;i<FUNCTION_SIZE;i++)
 	{
 		ptr_tmp = (int *)malloc(sizeof(int)*size);
@@ -73,7 +73,7 @@ void sort(int *source,int size)
 		/* Merge_sort_call(ptr_tmp,size); */
 		function_source[i](ptr_tmp,size);
 		end = clock();
-		printf("time wasted:%ld\n",(end-start));	
+		printf("time wasted:%ld\n",(end-start));
 		free(ptr_tmp);
 	}
 }

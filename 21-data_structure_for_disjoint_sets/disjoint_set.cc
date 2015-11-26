@@ -22,7 +22,7 @@ public:
 			return parent_[i];
 		}
 	}
-	
+
 	void Link(size_t x,size_t y) {
 		if (rank_[x] < rank_[y]) {
 			parent_[x] = y;

@@ -22,7 +22,7 @@ vector<int> GreedyActivitySelectorRecursive(vector<int> s,vector<int> f,int k,in
 }
 
 void GreedyActivitySelector(vector<int> s,vector<int> f) {
-	
+
 	int n = f.size();
 	vector<int> result{0};
 
@@ -189,7 +189,7 @@ void PrintTree(Node *p,int height) {
 void Huffman(vector<pair<char,int>> &c) {
 	int n = c.size();
 	auto fun = [](Node *x,Node *y) { return x->frequence > y->frequence; };
-	
+
 	priority_queue<Node *,vector<Node *>,function<bool(Node *x,Node *y)>> min_heap(fun);
 	for (int i = 0; i < n; ++i) {
 		Node *inserted = new Node;
@@ -198,7 +198,7 @@ void Huffman(vector<pair<char,int>> &c) {
 		min_heap.push(inserted);
 	}
 
-	for (int i = 0; i < n; ++i) {
+	for (int i = 0; i < n - 1; ++i) {
 		Node *inserted = new Node;
 		inserted->left = min_heap.top();
 		min_heap.pop();
@@ -216,9 +216,9 @@ void Huffman(vector<pair<char,int>> &c) {
 }
 
 int main() {
-	vector<int> s1 { 0, 1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12  }; 
+	vector<int> s1 { 0, 1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12  };
 	vector<int> f1 { 0, 4, 5, 6, 7, 9, 9, 10, 11, 12, 14, 16 };
-	vector<int> s {  1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12  }; 
+	vector<int> s {  1, 3, 0, 5, 3, 5, 6, 8, 8, 2, 12  };
 	vector<int> f {  4, 5, 6, 7, 9, 9, 10, 11, 12, 14, 16 };
 	vector<int> result = GreedyActivitySelectorRecursive(s1,f1,0,11);
 	for (auto a = result.rbegin(); a < result.crend(); a++) {
@@ -233,7 +233,7 @@ int main() {
 	vector<pair<int,int>> things{{100,20} ,{60,10} ,{120,30}};
 	// cout << Partition(things,0,2) << endl;
 	cout << FractionalKnapsack(50,things) << endl;
-	
+
 	vector<pair<char,int>> code{ {'f',5}, {'e',9}, {'c',12}, {'b',13}, {'d',16}, {'a',45} };
 	Huffman(code);
 	// PrintTree(root,0);

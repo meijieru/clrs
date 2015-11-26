@@ -33,13 +33,13 @@ int main()
 }
 
 /**
- * @brief 
+ * @brief
  *
  * @param source
  * @param size
  * @param target
  *
- * @return 
+ * @return
  */
 int search(int *source,int size,int target)
 {
@@ -50,7 +50,7 @@ int search(int *source,int size,int target)
 }
 
 /**
- * @brief 
+ * @brief
  *
  * @param source
  * @param size
