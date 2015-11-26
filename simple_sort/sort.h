@@ -8,11 +8,11 @@
 #include "bubble_sort/bubble_sort.h"
 #include "select_sort/select_sort.h"
 
-typedef void (*function)(int *,int);
+typedef void (*function)(int *, int);
 
-void sort(int *source,int size);
+void sort(int *source, int size);
 
 #define SIZE 10000
-#define FUNCTION_SIZE 6 
+#define FUNCTION_SIZE 6
 
-#endif //__SORT_H
+#endif  //__SORT_H
