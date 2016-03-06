@@ -177,6 +177,9 @@ class Matrix {
     return _in_storage->GetIdx(idx);
   }
   size_t NextIdx(int idx = -1) { return _loc_rec.NextIdx(idx); }
+  T &operator [](size_t idx) {
+    return GetIdx(idx);
+  }
 
  private:
   Dimension _dim;
