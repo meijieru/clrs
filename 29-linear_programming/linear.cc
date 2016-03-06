@@ -46,6 +46,7 @@ class SlackForm {
       if (N_[i] == idx) return i;
     }
     cerr << "not in N_" << endl;
+    return 0x888;
   }
 
   size_t BIdx(size_t idx) {
@@ -53,6 +54,7 @@ class SlackForm {
       if (B_[i] == idx) return i;
     }
     cerr << "not in B_" << endl;
+    return 0x888;
   }
 
   float GetValue(size_t idx) {
@@ -65,6 +67,8 @@ class SlackForm {
     } else {
       return 0;
     }
+    cerr << "cannot get value" << endl;
+    return 0x888;
   }
 
   void Pivot(size_t l, size_t e) {
@@ -111,12 +115,10 @@ class SlackForm {
     int k = -1;
     int min_b = numeric_limits<int>::max();
     for (size_t i = 0; i < b_.size(); ++i) {
-      if (b_[i] > 0) {
-        k = b_[i] < min_b ? (min_b = b_[i], i) : k;
-      }
+      k = b_[i] < min_b ? (min_b = b_[i], i) : k;
     }
-    if (k == -1) {
-      return false;
+    if (b_[k] >= 0) {
+      return true;
     }
 
     auto n = a_.NCol();
@@ -127,9 +129,9 @@ class SlackForm {
     Matrix<float> newA(Dimension(a_.NRow(), a_.NCol() + 1));
     for (size_t i = 0; i < a_.NRow(); ++i) {
       for (size_t j = 0; j < a_.NCol(); ++j) {
-        newA[i * n + j + 1] = a_[i * n + j];
+        newA[i * (n + 1) + j + 1] = a_[i * n + j];
       }
-      newA[i * n] = -1;
+      newA[i * (n + 1)] = -1;
     }
 
     new_slackform.SetB(b_);
@@ -144,27 +146,65 @@ class SlackForm {
         return false;
       }
       if (IsBasic(0)) {
-        // TODO : Pivot the 0 to be the non_basic var
+        new_slackform.Pivot(new_slackform.BIdx(0), 0);
       }
 
-      // TODO : restore the value
-      for (size_t i = 0; i < a_.NRow(); ++i) {
-        for (size_t j = 0; j < a_.NCol(); ++j) {
-          a_[i * n + j] = newA[i * (n + 1) + j + 1];
+      auto col = new_slackform.NIdx(0);
+      newA = new_slackform.a_;
+      for (size_t i = 0; i < newA.NRow(); ++i) {
+        size_t _j = 0;
+        for (size_t j = 0; j < newA.NCol(); ++j) {
+          if (j != col) {
+            a_[i * n + _j] = newA[i * (n + 1) + j];
+            ++_j;
+          }
         }
       }
+
       b_ = new_slackform.b_;
+      transform(new_slackform.B_.begin(), new_slackform.B_.end(), B_.begin(),
+                [](size_t x) { return x - 1; });
+
+      copy_if(new_slackform.N_.begin(), new_slackform.N_.end(), N_.begin(),
+              [&](size_t x) { return x != col; });
+      transform(N_.begin(), N_.end(), N_.begin(),
+                [](size_t x) { return x - 1; });
+
+      vector<float> _c(c_.size());
+      for (size_t i = 0; i < N_.size(); ++i) {
+        if (new_slackform.IsBasic(i + 1)) {
+          size_t row = new_slackform.BIdx(i + 1); // index + 1 in new_slackform
+          for (size_t j = 0; j < _c.size(); ++j) {
+            // _c[new_slackform.N_[j]] -= c_[i] * a_[row * n + j];
+            _c[j] -= c_[i] * a_[row * n + j];
+            v_ += c_[i] * b_[i];
+          }
+        } else {
+          _c[new_slackform.NIdx(i + 1)] += c_[i];
+        }
+      }
+      copy(_c.begin(), _c.end(), c_.begin());
+
+      DebugPrint();
+      return true;
+    } else {
+      cout << "cannot init" << endl;
+      return false;
     }
   }
 
  public:
   bool Simplex(vector<float> &solution) {
-    // InitSimplex();
+    if (!InitSimplex()) {
+      return false;
+    }
+    // cout << "init complete" << endl;
 
     const size_t kTag = 10000;
     auto n = a_.NCol();
 
     while (true) {
+      // cout << "hhh" << endl;
       size_t e = kTag, min_n = kTag;
       // Bland rules
       for (size_t i = 0; i < N_.size(); ++i) {
@@ -175,6 +215,8 @@ class SlackForm {
       if (e == kTag) {
         break;
       }
+      // cout << "e is: " << e << endl;
+      // cout << "min_n is: " << min_n << endl;
       size_t l = kTag, min_delta = kTag;
       for (size_t i = 0; i < B_.size(); ++i) {
         if (a_[i * n + e] > 0) {
@@ -191,24 +233,20 @@ class SlackForm {
 
       Pivot(l, e);
     }
+
     solution.resize(c_.size(), 0);
-    // for (size_t i = 0; i < B_.size(); ++i) {
-      // size_t idx = B_[i];
-      // if (idx < N_.size()) {
-        // solution[idx] = b_[i];
-      // }
-    // }
     for (size_t i = 0; i < B_.size(); ++i) {
-      solution[i] = GetValue(i);
+      size_t idx = B_[i];
+      if (idx < N_.size()) {
+        solution[idx] = b_[i];
+      }
     }
 
-    DebugPrint();
     return true;
   }
 
-
   void DebugPrint(void) {
-    cout << __func__ << endl;
+    cout << __func__ << "----------" << endl;
     a_.Display();
     ostream_iterator<float> out(cout, " ");
     cout << "b: ";
@@ -237,7 +275,7 @@ class SlackForm {
   float v_;
 };  // class: SlackForm
 
-void Test(void) {
+void Test0(void) {
   SlackForm slack_form;
   vector<float> b_ = {
       30, 24, 36,
@@ -262,8 +300,28 @@ void Test(void) {
   cout << endl;
 }
 
+void Test1(void) {
+  SlackForm slack_form;
+  vector<float> b_ = {2, -4};
+  vector<float> c_ = {2, -1};
+  vector<float> a_ = {2, -1, 1, -5};
+  Matrix<float> a(Dimension(2, 2));
+  a.Fill(a_);
+  slack_form.SetB(b_);
+  slack_form.SetC(c_);
+  slack_form.SetA(a);
+
+  vector<float> solution;
+  slack_form.Simplex(solution);
+  slack_form.DebugPrint();
+  for (auto x : solution) {
+    cout << x << " ";
+  }
+  cout << endl;
+}
+
 int main(void) {
-  Test();
+  Test1();
 
   return 0;
 }
