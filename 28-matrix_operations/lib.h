@@ -218,11 +218,28 @@ Matrix<T> Diagnal(std::vector<T> &diag) {
   return std::move(m);
 }
 
-template <typename T = float>
+template <typename T>
 Matrix<T> Eye(size_t n) {
   assert(n > 0);
   std::vector<T> v(n, 1);
   return Diagnal(v);
+}
+
+template <typename T>
+Matrix<T> ThreeDiagnal(std::vector<T> &diag, std::vector<T> &down,
+                       std::vector<T> &up) {
+  auto _dim = Dimension(diag.size(), diag.size());
+  Matrix<T> m(_dim);
+
+  size_t n = diag.size();
+  for (size_t i = 0; i < n; ++i) {
+    m.GetIdx(i * n + i) = diag[i];
+  }
+  for (size_t i = 1; i < n; ++i) {
+    m.GetIdx(i * n + i - 1) = down[i - 1];
+    m.GetIdx((i - 1) * n + i) = up[i - 1];
+  }
+  return m;
 }
 
 template <typename T>
