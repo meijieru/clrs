@@ -118,8 +118,8 @@ class Matrix {
     for (size_t i = 0; i < n_row1; ++i) {
       for (size_t j = 0; j < n_col1; ++j) {
         for (size_t k = 0; k < n_col2; ++k) {
-          result.GetIdx(i * result.NCol() + k) +=
-              GetIdx(i * n_col1 + j) * m.GetIdx(j * n_col2 + k);
+          result[i * result.NCol() + k] +=
+              GetIdx(i * n_col1 + j) * m[j * n_col2 + k];
         }
       }
     }
@@ -163,7 +163,7 @@ class Matrix {
     auto idx = NextIdx();
     for (size_t i = 0; i < n_row; ++i) {
       for (size_t j = 0; j < n_col; ++j) {
-        result.GetIdx(j * n_row + i) = GetIdx(idx);
+        result[j * n_row + i] = GetIdx(idx);
         idx = NextIdx(idx);
       }
     }
@@ -213,7 +213,7 @@ Matrix<T> Diagnal(std::vector<T> &diag) {
   Matrix<T> m(_dim);
 
   for (size_t i = 0; i < diag.size(); ++i) {
-    m.GetIdx(i * diag.size() + i) = diag[i];
+    m[i * diag.size() + i] = diag[i];
   }
   return std::move(m);
 }
@@ -233,11 +233,11 @@ Matrix<T> ThreeDiagnal(std::vector<T> &diag, std::vector<T> &down,
 
   size_t n = diag.size();
   for (size_t i = 0; i < n; ++i) {
-    m.GetIdx(i * n + i) = diag[i];
+    m[i * n + i] = diag[i];
   }
   for (size_t i = 1; i < n; ++i) {
-    m.GetIdx(i * n + i - 1) = down[i - 1];
-    m.GetIdx((i - 1) * n + i) = up[i - 1];
+    m[i * n + i - 1] = down[i - 1];
+    m[(i - 1) * n + i] = up[i - 1];
   }
   return m;
 }
@@ -251,7 +251,7 @@ std::vector<T> LUPSolve(Matrix<T> &l, Matrix<T> &u, std::vector<T> &pi,
   for (size_t i = 0; i < n; ++i) {
     y[i] = b[pi[i]];
     for (size_t j = 0; j < i; ++j) {
-      y[i] -= l.GetIdx(i * n + j) * y[j];
+      y[i] -= l[i * n + j] * y[j];
     }
   }
 
@@ -259,9 +259,9 @@ std::vector<T> LUPSolve(Matrix<T> &l, Matrix<T> &u, std::vector<T> &pi,
     auto i = n - idx - 1;
     x[i] = y[i];
     for (size_t j = i + 1; j < n; ++j) {
-      x[i] -= u.GetIdx(i * n + j) * x[j];
+      x[i] -= u[i * n + j] * x[j];
     }
-    x[i] /= u.GetIdx(i * n + i);
+    x[i] /= u[i * n + i];
   }
 
   return x;
@@ -273,20 +273,20 @@ void LUDecomposition(Matrix<T> a, Matrix<T> &l, Matrix<T> &u) {
   auto n = a.NCol();
 
   for (size_t i = 0; i < n; ++i) {
-    l.GetIdx(i * n + i) = 1;
-    u.GetIdx(i * n + i) = 0;
+    l[i * n + i] = 1;
+    u[i * n + i] = 0;
   }
 
   for (size_t i = 0; i < n; ++i) {
-    u.GetIdx(i * n + i) = a.GetIdx(i * n + i);
+    u[i * n + i] = a[i * n + i];
     for (size_t j = i + 1; j < n; ++j) {
-      l.GetIdx(j * n + i) = a.GetIdx(j * n + i) / u.GetIdx(i * n + i);
-      u.GetIdx(i * n + j) = a.GetIdx(i * n + j);
+      l[j * n + i] = a[j * n + i] / u[i * n + i];
+      u[i * n + j] = a[i * n + j];
     }
 
     for (size_t j = i + 1; j < n; ++j) {
       for (size_t k = i + 1; k < n; ++k) {
-        a.GetIdx(j * n + k) -= l.GetIdx(j * n + i) * u.GetIdx(i * n + k);
+        a[j * n + k] -= l[j * n + i] * u[i * n + k];
       }
     }
   }
@@ -308,8 +308,8 @@ void LUPDecomposition(Matrix<T> a, Matrix<T> &l, Matrix<T> &u,
     T p = 0;
     size_t _k;
     for (size_t i = k; i < n; ++i) {
-      if (abs(a.GetIdx(i * n + k)) > p) {
-        p = abs(a.GetIdx(i * n + k));
+      if (abs(a[i * n + k]) > p) {
+        p = abs(a[i * n + k]);
         _k = i;
       }
     }
@@ -318,27 +318,27 @@ void LUPDecomposition(Matrix<T> a, Matrix<T> &l, Matrix<T> &u,
     }
     swap(pi[k], pi[_k]);
     for (size_t i = 0; i < n; ++i) {
-      swap(a.GetIdx(k * n + i), a.GetIdx(_k * n + i));
+      swap(a[k * n + i], a[_k * n + i]);
     }
     for (size_t i = k + 1; i < n; ++i) {
-      a.GetIdx(i * n + k) /= a.GetIdx(k * n + k);
+      a[i * n + k] /= a[k * n + k];
       for (size_t j = k + 1; j < n; ++j) {
-        a.GetIdx(i * n + j) -= a.GetIdx(i * n + k) * a.GetIdx(k * n + j);
+        a[i * n + j] -= a[i * n + k] * a[k * n + j];
       }
     }
   }
 
   for (size_t i = 0; i < n; ++i) {
-    l.GetIdx(i * n + i) = 1;
+    l[i * n + i] = 1;
   }
   for (size_t i = 0; i < n; ++i) {
     for (size_t j = i; j < n; ++j) {
-      u.GetIdx(i * n + j) = a.GetIdx(i * n + j);
+      u[i * n + j] = a[i * n + j];
     }
   }
   for (size_t i = 0; i < n; ++i) {
     for (size_t j = i + 1; j < n; ++j) {
-      l.GetIdx(j * n + i) = a.GetIdx(j * n + i);
+      l[j * n + i] = a[j * n + i];
     }
   }
 }
