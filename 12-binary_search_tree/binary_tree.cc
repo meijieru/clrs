@@ -125,6 +125,9 @@ class bTree {
     delete ptr;
   }
   void Release(Node *ptr) {
+    if (!ptr) {
+      return;
+    }
     if (ptr->left != kNil) Release(ptr->left);
     if (ptr->right != kNil) Release(ptr->right);
     delete ptr;
